@@ -1,0 +1,60 @@
+# Shared configuration for all components
+controllers:
+  main:
+    containers:
+      main:
+        env:
+          REDIS_HOSTNAME: immich-valkey
+          IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning:3003
+          DB_HOSTNAME: postgresql.immich.svc.cluster.local
+          DB_PORT: "5432"
+          DB_USERNAME: immich
+          DB_PASSWORD: immichpassword123
+          DB_DATABASE_NAME: immich
+          # Disable reverse geocoding to avoid geodata import
+          DISABLE_REVERSE_GEOCODING: "true"
+
+# Global immich config
+immich:
+  persistence:
+    library:
+      existingClaim: "immich-library"
+
+# Server configuration
+server:
+  enabled: true
+  service:
+    main:
+      type: NodePort
+      ports:
+        http:
+          nodePort: 32000
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      size: 10Gi
+      storageClass: local-path
+      accessMode: ReadWriteOnce
+
+# Machine Learning
+machine-learning:
+  enabled: true
+  persistence:
+    cache:
+      enabled: true
+      type: persistentVolumeClaim
+      size: 10Gi
+      accessMode: ReadWriteOnce
+      storageClass: local-path
+
+# Enable Valkey
+valkey:
+  enabled: true
+  persistence:
+    data:
+      enabled: true
+      type: persistentVolumeClaim
+      size: 10Gi
+      accessMode: ReadWriteOnce
+      storageClass: local-path
