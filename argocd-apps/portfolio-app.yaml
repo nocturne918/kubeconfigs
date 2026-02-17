@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portfolio
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: portfolio=ghcr.io/nocturne918/andrewchuang.com
+    argocd-image-updater.argoproj.io/portfolio.update-strategy: latest
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/nocturne918/kubeconfigs
+    targetRevision: HEAD
+    path: portfolio
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: portfolio
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

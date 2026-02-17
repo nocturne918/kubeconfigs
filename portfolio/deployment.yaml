@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: portfolio
-        image: nocturne918/andrewchuang.com:latest
+        image: ghcr.io/nocturne918/andrewchuang.com:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         livenessProbe:
